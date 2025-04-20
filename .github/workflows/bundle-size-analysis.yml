@@ -1,21 +1,55 @@
-name: Bundle Analyze
+name: Bundle Size Analysis
 
 on:
   pull_request:
+    branches: [main]
   push:
     branches: [main]
 
 jobs:
   analyze:
+    name: Analyze Bundle Size
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
+
       - name: Install dependencies
         run: pnpm install
-      - run: pnpm build
-      - name: Analyze bundle
-        run: pnpm exec next build && pnpm exec next build && npx @next/bundle-analyzer
+
+      - name: Build and analyze bundle
+        run: |
+          pnpm build
+          pnpm exec next build
+          npx @next/bundle-analyzer
+
+      - name: Comment PR with bundle size
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            try {
+              const stats = JSON.parse(fs.readFileSync('.next/stats.json', 'utf8'));
+              const totalSize = Object.values(stats.assets)
+                .reduce((total, asset) => total + asset.size, 0);
+              
+              const sizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+              
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: `📦 Bundle size: ${sizeMB}MB`
+              });
+            } catch (error) {
+              console.error('Error reading bundle stats:', error);
+            }
