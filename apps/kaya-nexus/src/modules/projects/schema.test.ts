@@ -1,7 +1,7 @@
 import { isProjectInput } from './schema';
 
-// Utilise Vitest pour une compatibilité universelle avec pnpm monorepo et Next.js
-import { describe, it, expect } from 'vitest';
+// Utilise Jest pour une compatibilité universelle avec pnpm monorepo et Next.js
+import { describe, it, expect } from '@jest/globals';
 
 describe('isProjectInput', () => {
   it('valide un projet conforme', () => {

@@ -1,5 +1,5 @@
 import { isAiPromptInput } from './schema';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from '@jest/globals';
 
 describe('isAiPromptInput', () => {
   it('valide un prompt conforme', () => {

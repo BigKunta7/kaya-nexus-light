@@ -1,4 +1,4 @@
-import { expect, test, describe, it } from 'vitest';
+import { expect, describe, it } from '@jest/globals';
 import { isSubsidiaryProfile } from './subsidiaryProfile';
 
 describe('isSubsidiaryProfile', () => {

@@ -1,5 +1,5 @@
+import { expect, describe, it } from '@jest/globals';
 import { isUserProfile } from './userProfile';
-import { describe, it, expect } from 'vitest';
 
 describe('isUserProfile', () => {
   it('valide un profil conforme', () => {

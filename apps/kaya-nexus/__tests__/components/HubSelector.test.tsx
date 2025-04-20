@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect } from '@jest/globals';
 import { HubProvider } from '../../src/contexts/HubContext';
-import HubSelector from '../../src/components/ui/HubSelector';
+import { HubSelector } from '../../src/components/ui/HubSelector';
 
 describe('HubSelector', () => {
   it('affiche le composant', () => {

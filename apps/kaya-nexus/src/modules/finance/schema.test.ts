@@ -1,5 +1,5 @@
 import { isTransactionInput } from './schema';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from '@jest/globals';
 
 describe('isTransactionInput', () => {
   it('valide une transaction conforme', () => {

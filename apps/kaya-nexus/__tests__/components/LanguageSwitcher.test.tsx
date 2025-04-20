@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
-import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
+import { describe, it, expect } from '@jest/globals';
+import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 
 describe('LanguageSwitcher', () => {
   it('affiche le composant', () => {

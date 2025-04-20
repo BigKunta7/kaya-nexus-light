@@ -1,5 +1,5 @@
 import { isContactInput } from './schema';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from '@jest/globals';
 
 describe('isContactInput', () => {
   it('valide un contact conforme', () => {
