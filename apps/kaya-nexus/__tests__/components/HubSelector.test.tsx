@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, it, expect, jest } from '@jest/globals';
 import { HubSelector } from '../../src/components/ui/HubSelector';
 import type { HubConfig } from '@/types/hub';
@@ -38,18 +38,11 @@ const mockHubs: HubConfig[] = [
 // Mock du HubContext
 jest.mock('../../src/contexts/HubContext', () => ({
   useHub: () => ({
-    hub: mockHubs[0],
-    setHub: jest.fn(),
+    currentHub: mockHubs[0],
+    setCurrentHub: jest.fn(),
     hubs: mockHubs
   }),
   HubProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>
-}));
-
-// Mock des fonctions getHubs pour éviter l'erreur isHubConfig
-jest.mock('../../src/lib/hubs', () => ({
-  getHubs: jest.fn(() => mockHubs),
-  getDefaultHub: jest.fn(() => mockHubs[0]),
-  getHubById: jest.fn((hubs: HubConfig[], id: string) => hubs.find(h => h.id === id))
 }));
 
 describe('HubSelector', () => {
@@ -65,7 +58,8 @@ describe('HubSelector', () => {
 
   it('affiche la liste des hubs disponibles', () => {
     render(<HubSelector />);
-    expect(screen.getByRole('combobox')).toBeInTheDocument();
+    const combobox = screen.getByRole('combobox');
+    expect(combobox).toBeInTheDocument();
     expect(screen.getByText('France')).toBeInTheDocument();
     expect(screen.getByText('États-Unis')).toBeInTheDocument();
   });

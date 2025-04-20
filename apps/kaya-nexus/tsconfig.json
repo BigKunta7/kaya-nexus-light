@@ -12,7 +12,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "types": ["react"],
+    "types": ["react", "jest", "@testing-library/jest-dom"],
     "incremental": true,
     "forceConsistentCasingInFileNames": true,
     "plugins": [
@@ -21,9 +21,10 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@kaya/design-system": ["../../packages/design-system/src"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "cypress", "**/*.cy.ts", "**/*.cy.tsx"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.cy.ts", "**/*.cy.tsx", "jest.setup.ts"],
+  "exclude": ["node_modules"]
 }
