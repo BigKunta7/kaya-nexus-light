@@ -91,3 +91,4 @@ L'application est configurée pour supporter le français (par défaut) et l'ang
 ## Licence
 
 Propriétaire - KK Holding © 2025
+# kaya-nexus-light
