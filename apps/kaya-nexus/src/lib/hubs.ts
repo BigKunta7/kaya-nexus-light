@@ -4,7 +4,25 @@
  * @module Lib/Hubs
  */
 
-import type { HubConfig, isHubConfig } from '../types/hub';
+import type { HubConfig } from '../types/hub';
+
+export const isHubConfig = (obj: unknown): obj is HubConfig => {
+  if (!obj || typeof obj !== 'object') return false;
+  const hub = obj as HubConfig;
+  return (
+    typeof hub.id === 'string' &&
+    typeof hub.name === 'string' &&
+    typeof hub.locale === 'string' &&
+    typeof hub.timezone === 'string' &&
+    typeof hub.currency === 'string' &&
+    typeof hub.branding === 'object' &&
+    typeof hub.branding.logoUrl === 'string' &&
+    typeof hub.branding.primaryColor === 'string' &&
+    typeof hub.branding.secondaryColor === 'string' &&
+    Array.isArray(hub.enabledModules) &&
+    typeof hub.default === 'boolean'
+  );
+};
 
 export const HUBS: HubConfig[] = [
   {
@@ -51,23 +69,24 @@ export const HUBS: HubConfig[] = [
   },
 ];
 
-/**
- * Retourne la liste des hubs configurés.
- */
-export function getHubs(raw: unknown[]): HubConfig[] {
-  return raw.filter(isHubConfig);
-}
+export const getHubs = (): HubConfig[] => {
+  const hubsJson = process.env.NEXT_PUBLIC_HUBS;
+  if (!hubsJson) return HUBS;
 
-/**
- * Retourne le hub par défaut.
- */
-export function getDefaultHub(hubs: HubConfig[]): HubConfig | undefined {
-  return hubs.find(h => h.default);
-}
+  try {
+    const parsed = JSON.parse(hubsJson);
+    if (!Array.isArray(parsed)) return HUBS;
+    return parsed.filter(isHubConfig);
+  } catch {
+    return HUBS;
+  }
+};
 
-/**
- * Retourne un hub par son id.
- */
-export function getHubById(hubs: HubConfig[], id: string): HubConfig | undefined {
+export const getDefaultHub = (): HubConfig | null => {
+  const hubs = getHubs();
+  return hubs.length > 0 ? hubs[0] : null;
+};
+
+export const getHubById = (hubs: HubConfig[], id: string): HubConfig | undefined => {
   return hubs.find(h => h.id === id);
-}
+};
