@@ -32,7 +32,7 @@ export const LanguageSwitcher: React.FC = () => {
         onChange={handleChange}
         className="border rounded px-2 py-1"
       >
-        {languages.map(l => (
+        {(languages ?? LANGUAGES).map(l => (
           <option key={l.code} value={l.code}>{l.label}</option>
         ))}
       </select>

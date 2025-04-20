@@ -24,7 +24,7 @@ export const HubProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const found = hubs.find(h => h.id === stored);
       if (found) setHubState(found);
     }
-  }, []);
+  }, [hubs]);
 
   const setHub = (hub: HubConfig) => {
     setHubState(hub);

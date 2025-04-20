@@ -7,7 +7,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { HubProvider } from '../contexts/HubContext';
 import { LanguageProvider } from '../contexts/LanguageContext';
 
-export default function Providers({ children, locale, messages }: { children: React.ReactNode; locale: string; messages: any }) {
+export default function Providers({ children, locale, messages }: { children: React.ReactNode; locale: string; messages: Record<string, unknown> }) {
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <LanguageProvider>
