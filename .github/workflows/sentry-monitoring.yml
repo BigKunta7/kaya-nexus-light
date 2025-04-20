@@ -1,0 +1,21 @@
+# Commit technique pour forcer la réindexation CI/CD Windsurf et GitHub Actions
+
+name: Sentry Monitoring
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  sentry-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        with:
+          environment: production
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: bigkunta
+          SENTRY_PROJECT: javascript-nextjs
