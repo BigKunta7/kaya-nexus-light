@@ -1,4 +1,6 @@
+/** @type {import('jest').Config} */
 module.exports = {
+  preset: 'ts-jest',
   testEnvironment: 'jsdom',
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }]
@@ -12,7 +14,7 @@ module.exports = {
   },
   setupFilesAfterEnv: [
     '<rootDir>/jest.setup.ts',
-    '@testing-library/jest-dom'
+    '@testing-library/jest-dom/extend-expect'
   ],
   testPathIgnorePatterns: ['/node_modules/', '<rootDir>/.next/', '<rootDir>/cypress/'],
   collectCoverageFrom: [

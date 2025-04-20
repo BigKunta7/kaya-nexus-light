@@ -1,20 +1,6 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "types": ["react", "jest", "@testing-library/jest-dom"],
-    "incremental": true,
-    "forceConsistentCasingInFileNames": true,
     "plugins": [
       {
         "name": "next"
@@ -23,8 +9,16 @@
     "paths": {
       "@/*": ["./src/*"],
       "@kaya/design-system": ["../../packages/design-system/src"]
-    }
+    },
+    "types": ["jest", "@testing-library/jest-dom"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.cy.ts", "**/*.cy.tsx", "jest.setup.ts"],
+  "include": [
+    "next-env.d.ts",
+    "jest.setup.ts",
+    "src/types/jest-dom.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }
