@@ -1,0 +1,33 @@
+{
+  "name": "kaya-nexus-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "scripts/*"
+  ],
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "test:unit": "pnpm -r test:unit",
+    "test:e2e": "pnpm --filter kaya-nexus cypress:run",
+    "test:coverage": "pnpm -r test:coverage",
+    "lint": "pnpm -r lint",
+    "dev": "pnpm --filter kaya-nexus dev",
+    "start": "pnpm --filter kaya-nexus start",
+    "prepare-deploy": "pnpm build && pnpm test:unit"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "pg": "^8.14.1",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "@types/node-fetch": "^2.6.12",
+    "@types/pg": "^8.11.13",
+    "typescript": "^5.8.3"
+  }
+}

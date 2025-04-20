@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "apps/kaya-nexus/.next",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html" // Ou fonction Cloud pour SSR Next.js
+      }
+    ]
+  }
+}

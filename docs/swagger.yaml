@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  title: API Kaya Nexus
+  description: Documentation de l'API pour la plateforme Kaya Nexus (modules CRM, Projets, IA, Finances, Analytics)
+  version: 1.0.0
+servers:
+  - url: /api/v1
+    description: Serveur principal
+
+paths:
+  /projects:
+    get:
+      summary: Récupérer la liste des projets
+      tags:
+        - Projets
+      security:
+        - bearerAuth: [] # Nécessite un token JWT
+      responses:
+        '200':
+          description: Liste des projets récupérée avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '401':
+          description: Non autorisé (token manquant ou invalide)
+        '500':
+          description: Erreur serveur interne
+
+components:
+  schemas:
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        status:
+          type: string
+          enum: [active, archived, pending]
+      required:
+        - id
+        - name
+        - status
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,13 @@
+.kayaButton {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #1a202c;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.kayaButton:hover {
+  background: #2d3748;
+}

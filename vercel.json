@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "apps/kaya-nexus/package.json",
+      "use": "@vercel/next",
+      "config": { "distDir": "../../.next" }
+    }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/apps/kaya-nexus/$1" }
+  ]
+}
