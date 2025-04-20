@@ -14,7 +14,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - run: pnpm install
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Install dependencies
+        run: pnpm install
       - run: pnpm build
       - name: Run axe accessibility tests
         run: npx axe-playwright https://localhost:3000 || true

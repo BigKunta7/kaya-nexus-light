@@ -14,6 +14,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Install dependencies
+        run: pnpm install
       - run: npm install -g @lhci/cli
       - run: pnpm install
       - run: pnpm build

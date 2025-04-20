@@ -10,7 +10,7 @@ module.exports = {
     '^@kaya/design-system$': '<rootDir>/../../packages/design-system/src',
     '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.js',
   },
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testPathIgnorePatterns: ['/node_modules/', '<rootDir>/.next/', '<rootDir>/cypress/'],
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',

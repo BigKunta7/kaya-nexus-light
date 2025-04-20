@@ -21,3 +21,5 @@ declare global {
     }
   }
 }
+
+import '@testing-library/jest-dom';

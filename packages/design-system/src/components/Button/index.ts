@@ -3,8 +3,5 @@
  * @module DesignSystem/Components/Button
  */
 
-import Button, { ButtonProps } from './Button';
-
-export { Button };
-export type { ButtonProps };
-export default Button;
+export { Button } from './Button';
+export type { ButtonProps } from './Button';
