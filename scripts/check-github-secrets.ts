@@ -14,6 +14,20 @@ const REQUIRED_SECRETS = [
   'VERCEL_PROJECT_ID',
 ];
 
+function isSecretsResponse(obj: any): obj is { secrets?: { name: string }[] } {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    (
+      obj.secrets === undefined ||
+      (
+        Array.isArray(obj.secrets) &&
+        obj.secrets.every((s: any) => typeof s.name === 'string')
+      )
+    )
+  );
+}
+
 async function checkSecrets(token: string, owner: string, repo: string) {
   const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/secrets`, {
     headers: { Authorization: `token ${token}` },
@@ -21,8 +35,10 @@ async function checkSecrets(token: string, owner: string, repo: string) {
   if (!res.ok) {
     throw new Error(`Erreur API GitHub : ${res.status} ${res.statusText}`);
   }
-  // Correction du typage explicite de 'data'
-  const data: { secrets?: { name: string }[] } = await res.json();
+  const data = await res.json();
+  if (!isSecretsResponse(data)) {
+    throw new Error('Réponse inattendue de l’API GitHub');
+  }
   const secrets = data.secrets?.map((s) => s.name) || [];
   const missing = REQUIRED_SECRETS.filter((key) => !secrets.includes(key));
   if (missing.length === 0) {

@@ -7,3 +7,11 @@ export const projectSchema = z.object({
 });
 
 export type ProjectInput = z.infer<typeof projectSchema>;
+
+/**
+ * Type guard pour ProjectInput
+ */
+export function isProjectInput(obj: unknown): obj is ProjectInput {
+  const parse = projectSchema.safeParse(obj);
+  return parse.success;
+}

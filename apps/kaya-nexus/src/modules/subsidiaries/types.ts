@@ -3,6 +3,8 @@
  * @module Modules/Subsidiaries/Types
  */
 
+import { z } from 'zod';
+
 /**
  * Identifiants des filiales de KK Holding.
  */
@@ -389,4 +391,31 @@ export interface SubsidiaryFilterParams {
    * Ordre de tri
    */
   sortOrder?: 'asc' | 'desc';
+}
+
+/**
+ * Schéma Zod pour la validation des filiales.
+ */
+export const subsidiarySchema = z.object({
+  id: z.nativeEnum(SubsidiaryId),
+  name: z.string(),
+  shortDescription: z.string(),
+  description: z.string(),
+  leader: z.string(),
+  logoUrl: z.string(),
+  primaryColor: z.string(),
+  secondaryColor: z.string(),
+  accentColor: z.string(),
+  icon: z.string(),
+  tags: z.array(z.string()),
+  createdAt: z.date(),
+  status: z.nativeEnum(SubsidiaryStatus),
+  requiredPermissions: z.array(z.string()),
+});
+
+/**
+ * Type guard pour vérifier si un objet est une filiale valide.
+ */
+export function isSubsidiary(obj: unknown): obj is z.infer<typeof subsidiarySchema> {
+  return subsidiarySchema.safeParse(obj).success;
 }

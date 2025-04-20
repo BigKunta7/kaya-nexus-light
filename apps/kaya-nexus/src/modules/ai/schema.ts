@@ -7,3 +7,11 @@ export const aiPromptSchema = z.object({
 });
 
 export type AiPromptInput = z.infer<typeof aiPromptSchema>;
+
+/**
+ * Type guard pour AiPromptInput
+ */
+export function isAiPromptInput(obj: unknown): obj is AiPromptInput {
+  const parse = aiPromptSchema.safeParse(obj);
+  return parse.success;
+}

@@ -20,5 +20,7 @@ jobs:
         run: pnpm lint || true
       - name: Build
         run: pnpm build || true
+      - name: Test (Vitest)
+        run: pnpm vitest --run --coverage
       - name: Test
         run: pnpm test || true

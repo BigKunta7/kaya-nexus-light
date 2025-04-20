@@ -61,40 +61,47 @@ Kaya Nexus repose sur une architecture moderne, modulaire et scalable, conçue p
 - **Intégrations** : APIs comme Brevo, Stripe, Notion, Pipedrive, QuickBooks, etc.  
 - **Outils DevOps** : GitHub Actions pour CI/CD, Vercel pour staging, Firebase Hosting pour production.
 
----
+### 2.4 Unicité des Contextes React : Language & Hub
 
-## Internationalisation (i18n) & Multi-hubs
+#### Décision d'architecture (avril 2025)
 
-### Librairie utilisée
-- [next-intl](https://next-intl.js.org/docs/getting-started/app-router) pour la gestion des traductions côté Next.js (App Router).
+Afin d'éviter tout bug de duplication de contexte et garantir la stabilité de l'internationalisation et de la gestion multi-hubs, **tous les contextes React (LanguageContext, HubContext, etc.) sont centralisés dans le dossier unique :**
 
-### Structure des fichiers de traduction
-- `/locales/{locale}/{namespace}.json` (ex: `fr-FR/common.json`, `gwp/dashboard.json`)
-- Chaque hub peut avoir ses propres traductions si besoin.
-
-### Providers globaux
-- `NextIntlClientProvider` pour la gestion des messages et de la locale
-- `HubProvider` (React Context) pour le hub sélectionné (persistance via localStorage)
-- `LanguageProvider` (React Context) pour la langue sélectionnée (persistance via localStorage)
-
-### Sélecteurs UI
-- `<HubSelector />` et `<LanguageSwitcher />` utilisent leurs contextes respectifs pour modifier le hub/la langue et déclencher la persistance
-
-### Exemple d'utilisation
-```tsx
-import { useTranslations } from 'next-intl';
-const t = useTranslations('common');
-return <h1>{t('welcome')}</h1>;
+```
+/apps/kaya-nexus/src/contexts/
 ```
 
-### Bonnes pratiques
-- Séparation stricte des contextes (hub/langue)
-- Types TypeScript pour la configuration des hubs (`HubConfig`)
-- Tests unitaires pour les services et composants critiques
+- **Aucun doublon n'est toléré** dans `/components/contexts` ou ailleurs.
+- **Tous les composants et tests** doivent importer les contextes via un chemin relatif unique, par exemple :
+  ```typescript
+  import { useLanguage, LanguageProvider } from '../../contexts/LanguageContext';
+  ```
+- Cette règle s'applique également aux hooks personnalisés (`useLanguage`, `useHub`, etc.).
 
-### À venir
-- Persistance serveur (cookie) pour SSR
-- Synchronisation URL/locale
+#### Pourquoi ?
+- **Évite les collisions de contextes** (erreur : « useLanguage doit être utilisé dans un LanguageProvider »).
+- **Garantie de persistance et de cohérence de l'état** (localStorage, etc.).
+- **Facilite la maintenance et la montée en version**.
+
+#### Bonnes pratiques
+- **Vérification systématique** lors de la création de nouveaux composants :
+  - Toujours importer les contextes depuis `/src/contexts/`.
+  - Ne jamais recréer de provider/hook dans un sous-dossier.
+- **Tests unitaires** :
+  - Toujours wrapper les composants testés avec le bon Provider importé depuis `/src/contexts/`.
+- **Contrôle qualité** :
+  - Tout nouveau composant ou test utilisant un contexte doit être relu pour vérifier le chemin d'import.
+
+#### Exemple correct
+```typescript
+import { useLanguage } from '../../contexts/LanguageContext';
+```
+
+### 2.5 Couverture de tests
+
+- Objectif : **maintenir une couverture de tests supérieure à 80%** sur l’ensemble du code métier et des composants critiques.
+- Utilisation de **Jest** et **Testing Library** pour les tests unitaires et d’intégration.
+- Les rapports de couverture sont générés à chaque CI/CD et doivent être consultés avant chaque merge.
 
 ---
 
@@ -379,5 +386,90 @@ Fichiers générés :
 - `cypress/e2e/projects.cy.ts`
 - `cypress/e2e/analytics.cy.ts`
 - `cypress/e2e/ai.cy.ts`
+
+---
+
+## ARCHITECTURE.md
+
+## 1. Structure générale
+- Monorepo pnpm : `/apps`, `/packages`, `/scripts`
+- Next.js 14, TypeScript, Tailwind, ESLint
+
+## 2. Contextes React
+- Centralisation dans `/src/contexts`
+- Règle ESLint pour l’unicité des imports
+
+## 3. Internationalisation & multi-hubs
+- `/locales` multi-langues, multi-hubs
+- Types et services séparés (`HubConfig`, `lib/hubs.ts`)
+- Sélecteurs UI (`LanguageSwitcher`, `HubSelector`)
+
+## 4. CI/CD & Qualité
+- Workflows GitHub Actions : build, deploy, lint, coverage, lighthouse, a11y, security, E2E
+- Badges dans le README
+- Merge automatique branches “green”
+
+## 5. Sécurité
+- Headers HTTP (CSP, HSTS, etc.) dans `next.config.js`
+- Audit pnpm audit automatisé
+- Monitoring Sentry (voir workflow)
+- Secrets via GitHub uniquement
+
+## 6. Accessibilité
+- Audit axe-core automatisé
+- Tests Cypress sur parcours critiques
+- Focus, contraste, labels, ARIA systématiques
+
+## 7. Documentation
+- ARCHITECTURE.md : structure, choix, workflows
+- ERREURS.md : journal erreurs/correctifs
+
+---
+
+Projet conforme aux standards pro et prêt pour la scalabilité, la sécurité et l’open source.
+
+## 3.3 Convention de validation des données externes
+
+> **Toute donnée externe (requête API, payload, fichier, paramètre d’URL, etc.) doit être validée par un type guard basé sur un schéma Zod avant tout traitement.**
+
+### Exemple de pattern à respecter
+
+```typescript
+import { isProjectInput } from '@/modules/projects/schema';
+
+const body = await req.json();
+if (!isProjectInput(body)) {
+  return NextResponse.json({ error: 'Format projet invalide' }, { status: 400 });
+}
+// Traitement sécurisé
+```
+
+- Les schémas Zod sont définis pour chaque type métier critique (Contact, Project, Transaction, Hub, etc.).
+- Un type guard (ex : `isProjectInput`) est généré pour chaque schéma et utilisé systématiquement.
+- Cette convention s’applique à tous les endpoints, scripts, services et middlewares.
+
+**But : garantir la sécurité, la robustesse et la maintenabilité du code.**
+
+## 3.4 Tests unitaires des type guards
+
+> **Chaque type guard doit être couvert par des tests unitaires (Jest, Vitest, etc.) pour garantir la détection des cas valides/invalides.**
+
+### Exemple de test Jest
+
+```typescript
+import { isProjectInput } from '@/modules/projects/schema';
+
+describe('isProjectInput', () => {
+  it('valide un projet conforme', () => {
+    expect(isProjectInput({ name: 'Test', status: 'active' })).toBe(true);
+  });
+  it('rejette un projet incomplet', () => {
+    expect(isProjectInput({ name: 'Test' })).toBe(false);
+  });
+});
+```
+
+- Les tests doivent couvrir : cas valides, cas invalides, types inattendus.
+- Les fichiers de test sont à placer dans `__tests__` ou à côté du module (`*.test.ts`).
 
 ---

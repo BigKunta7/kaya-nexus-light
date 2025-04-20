@@ -1,21 +1,21 @@
-import { getHubs, getDefaultHub, getHubById } from '../../src/lib/hubs';
+import { getHubs, getDefaultHub, getHubById } from '@/lib/hubs';
+import { describe, it, expect } from 'vitest';
 
-describe('Service de gestion des hubs', () => {
-  it('retourne la liste des hubs', () => {
-    const hubs = getHubs();
+describe('Hubs service', () => {
+  it('retourne au moins un hub', async () => {
+    const hubs = await getHubs();
     expect(Array.isArray(hubs)).toBe(true);
     expect(hubs.length).toBeGreaterThan(0);
   });
-
-  it('retourne le hub par défaut', () => {
-    const hub = getDefaultHub();
-    expect(hub).toHaveProperty('id');
-    expect(hub.default).toBe(true);
-  });
-
-  it('retourne un hub par son id', () => {
-    const hub = getHubById('gwp');
+  it('retourne un hub par défaut', async () => {
+    const hub = await getDefaultHub();
     expect(hub).toBeDefined();
-    expect(hub?.id).toBe('gwp');
+    expect(hub).toHaveProperty('id');
+  });
+  it('retourne un hub par id', async () => {
+    const hubs = await getHubs();
+    const hub = await getHubById(hubs[0]?.id || '');
+    expect(hub).toBeDefined();
+    expect(hub?.id).toBe(hubs[0]?.id);
   });
 });

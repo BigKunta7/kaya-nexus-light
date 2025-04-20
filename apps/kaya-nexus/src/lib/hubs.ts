@@ -4,7 +4,7 @@
  * @module Lib/Hubs
  */
 
-import type { HubConfig } from '../types/hub';
+import type { HubConfig, isHubConfig } from '../types/hub';
 
 export const HUBS: HubConfig[] = [
   {
@@ -54,20 +54,20 @@ export const HUBS: HubConfig[] = [
 /**
  * Retourne la liste des hubs configurés.
  */
-export function getHubs(): HubConfig[] {
-  return HUBS;
+export function getHubs(raw: unknown[]): HubConfig[] {
+  return raw.filter(isHubConfig);
 }
 
 /**
  * Retourne le hub par défaut.
  */
-export function getDefaultHub(): HubConfig {
-  return HUBS.find(hub => hub.default) || HUBS[0];
+export function getDefaultHub(hubs: HubConfig[]): HubConfig | undefined {
+  return hubs.find(h => h.default);
 }
 
 /**
  * Retourne un hub par son id.
  */
-export function getHubById(id: string): HubConfig | undefined {
-  return HUBS.find(hub => hub.id === id);
+export function getHubById(hubs: HubConfig[], id: string): HubConfig | undefined {
+  return hubs.find(h => h.id === id);
 }

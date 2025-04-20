@@ -1,0 +1,19 @@
+name: Bundle Analyze
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm install
+      - run: pnpm build
+      - name: Analyze bundle
+        run: pnpm exec next build && pnpm exec next build && npx @next/bundle-analyzer

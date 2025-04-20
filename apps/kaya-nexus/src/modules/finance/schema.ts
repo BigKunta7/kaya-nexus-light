@@ -8,3 +8,11 @@ export const transactionSchema = z.object({
 });
 
 export type TransactionInput = z.infer<typeof transactionSchema>;
+
+/**
+ * Type guard pour TransactionInput
+ */
+export function isTransactionInput(obj: unknown): obj is TransactionInput {
+  const parse = transactionSchema.safeParse(obj);
+  return parse.success;
+}

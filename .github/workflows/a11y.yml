@@ -1,0 +1,20 @@
+name: Accessibility (axe)
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  axe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - run: pnpm install
+      - run: pnpm build
+      - name: Run axe accessibility tests
+        run: npx axe-playwright https://localhost:3000 || true

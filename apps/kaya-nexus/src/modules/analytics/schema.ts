@@ -8,3 +8,11 @@ export const analyticsEventSchema = z.object({
 });
 
 export type AnalyticsEventInput = z.infer<typeof analyticsEventSchema>;
+
+/**
+ * Type guard pour AnalyticsEventInput
+ */
+export function isAnalyticsEventInput(obj: unknown): obj is AnalyticsEventInput {
+  const parse = analyticsEventSchema.safeParse(obj);
+  return parse.success;
+}

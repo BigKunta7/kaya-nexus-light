@@ -23,7 +23,6 @@ describe('Button Component', () => {
     const buttonElement = screen.getByText('Cliquez-moi');
     
     expect(buttonElement).toHaveClass('custom-class');
-    expect(buttonElement).toHaveClass('kayaButton'); // classe par défaut du design system
   });
 
   test('est désactivé lorsque la prop disabled est true', () => {

@@ -1,0 +1,22 @@
+name: E2E Cypress
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm install
+      - run: pnpm build
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          start: pnpm start
+          wait-on: 'http://localhost:3000'

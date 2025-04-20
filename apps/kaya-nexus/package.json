@@ -16,6 +16,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sentry/nextjs": "^9.13.0",
     "@supabase/supabase-js": "^2.49.4",
     "firebase": "^11.6.0",
     "firebase-admin": "^13.2.0",

@@ -12,7 +12,8 @@
     "strict": true,
     "skipLibCheck": true,
     "baseUrl": ".",
-    "rootDir": "src"
+    "rootDir": "src",
+    "types": []
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist", "**/*.test.tsx", "**/*.test.ts"]

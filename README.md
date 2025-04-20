@@ -1,17 +1,27 @@
 # Kaya Nexus
 
+[![Build Status](https://github.com/BigKunta7/kaya-nexus-light/actions/workflows/deploy.yml/badge.svg)](https://github.com/BigKunta7/kaya-nexus-light/actions/workflows/deploy.yml)
+[![Coverage Status](https://codecov.io/gh/BigKunta7/kaya-nexus-light/branch/main/graph/badge.svg)](https://codecov.io/gh/BigKunta7/kaya-nexus-light)
+[![Lighthouse CI](https://github.com/BigKunta7/kaya-nexus-light/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/BigKunta7/kaya-nexus-light/actions/workflows/lighthouse.yml)
+[![Accessibility](https://github.com/BigKunta7/kaya-nexus-light/actions/workflows/a11y.yml/badge.svg)](https://github.com/BigKunta7/kaya-nexus-light/actions/workflows/a11y.yml)
+[![Security Audit](https://github.com/BigKunta7/kaya-nexus-light/actions/workflows/security.yml/badge.svg)](https://github.com/BigKunta7/kaya-nexus-light/actions/workflows/security.yml)
+[![E2E Cypress](https://github.com/BigKunta7/kaya-nexus-light/actions/workflows/e2e-cypress.yml/badge.svg)](https://github.com/BigKunta7/kaya-nexus-light/actions/workflows/e2e-cypress.yml)
+
 Plateforme centralisée de gestion pour KK Holding, intégrant CRM, gestion de projets, IA, finances et analytiques.
 
 ## Structure du Monorepo
 
-```
-/
-├── apps/
-│   └── kaya-nexus/       # Application Next.js principale
-├── packages/
-│   └── design-system/    # Bibliothèque de composants partagés
-└── scripts/              # Scripts de migration et de seed
-```
+- `/apps/kaya-nexus` : Application Next.js principale
+- `/packages/design-system` : Design System partagé (à venir)
+- `/scripts` : Seed, migrations, outils de maintenance
+
+## Workflows CI/CD
+- **Build & Deploy** : Automatique sur chaque push/PR
+- **Coverage** : Badge dynamique, seuil >80%
+- **Lighthouse** : Audit perf, a11y, SEO, best practices
+- **Accessibility** : Audit axe-core
+- **Security** : Audit pnpm audit
+- **E2E** : Tests Cypress sur parcours critiques
 
 ## Prérequis
 
@@ -69,6 +79,20 @@ pnpm build
 pnpm prepare-deploy
 ```
 
+## Sécurité
+- Headers HTTP de sécurité (CSP, HSTS, etc.) dans `next.config.js`
+- Secrets gérés via GitHub, jamais en clair
+- Monitoring Sentry côté client/serveur (voir workflows)
+
+## Accessibilité
+- Audit axe-core automatisé
+- Contraste, focus, navigation clavier vérifiés
+- Labels et ARIA systématiques
+
+## Qualité
+- ESLint, Prettier, règles strictes sur les imports et contextes
+- Tests unitaires et E2E, coverage >80%
+
 ## Documentation
 
 Pour plus d'informations sur l'architecture, les modules et le déploiement, consultez :
@@ -90,5 +114,4 @@ L'application est configurée pour supporter le français (par défaut) et l'ang
 
 ## Licence
 
-Propriétaire - KK Holding © 2025
-# kaya-nexus-light
+Propriétaire - KK Holding 2025

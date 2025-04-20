@@ -1,26 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import LoginForm from '../LoginForm';
-import { useAuth } from '../../hooks/useAuth';
-
-// Mock du hook useAuth
-jest.mock('../../hooks/useAuth', () => ({
-  useAuth: jest.fn(),
-}));
 
 describe('LoginForm Component', () => {
-  const mockSignIn = jest.fn();
-  
-  beforeEach(() => {
-    jest.clearAllMocks();
-    (useAuth as jest.Mock).mockReturnValue({
-      signIn: mockSignIn,
-      user: null,
-      loading: false,
-      error: null,
-    });
-  });
-
   test('affiche correctement le formulaire de connexion', () => {
     render(<LoginForm />);
     
@@ -29,45 +11,31 @@ describe('LoginForm Component', () => {
     expect(screen.getByRole('button', { name: /connexion/i })).toBeInTheDocument();
   });
 
-  test('soumet le formulaire avec les valeurs correctes', async () => {
-    render(<LoginForm />);
-    
-    const emailInput = screen.getByLabelText(/email/i);
-    const passwordInput = screen.getByLabelText(/mot de passe/i);
-    const submitButton = screen.getByRole('button', { name: /connexion/i });
-    
-    fireEvent.change(emailInput, { target: { value: 'utilisateur@exemple.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'motdepasse123' } });
-    fireEvent.click(submitButton);
-    
-    await waitFor(() => {
-      expect(mockSignIn).toHaveBeenCalledWith('utilisateur@exemple.com', 'motdepasse123');
-    });
-  });
-
   test('affiche un message d\'erreur lorsque la connexion échoue', async () => {
-    (useAuth as jest.Mock).mockReturnValue({
-      signIn: mockSignIn,
-      user: null,
-      loading: false,
-      error: 'Identifiants invalides',
-    });
-    
     render(<LoginForm />);
     
-    expect(screen.getByText('Identifiants invalides')).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'foo@bar.com' } });
+    fireEvent.change(screen.getByLabelText(/mot de passe/i), { target: { value: 'wrong' } });
+    fireEvent.click(screen.getByRole('button', { name: /connexion/i }));
+    await waitFor(() => {
+      expect(screen.getByText('Identifiants invalides')).toBeInTheDocument();
+    });
   });
 
-  test('désactive le bouton pendant le chargement', () => {
-    (useAuth as jest.Mock).mockReturnValue({
-      signIn: mockSignIn,
-      user: null,
-      loading: true,
-      error: null,
-    });
+  test('désactive le bouton pendant le chargement', async () => {
+    const mockSignIn = jest.fn(() => new Promise((resolve) => setTimeout(resolve, 500)));
+    render(<LoginForm signIn={mockSignIn} />);
     
-    render(<LoginForm />);
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'admin@kaya.com' } });
+    fireEvent.change(screen.getByLabelText(/mot de passe/i), { target: { value: 'admin' } });
+    fireEvent.click(screen.getByRole('button', { name: /connexion/i }));
     
+    // Le bouton doit être désactivé juste après le clic
     expect(screen.getByRole('button', { name: /connexion/i })).toBeDisabled();
+    // On attend la fin de la promesse pour vérifier qu'il est réactivé
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /connexion/i })).not.toBeDisabled();
+    });
+    expect(mockSignIn).toHaveBeenCalledWith('admin@kaya.com', 'admin');
   });
 });

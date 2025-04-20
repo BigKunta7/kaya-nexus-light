@@ -8,3 +8,11 @@ export const contactSchema = z.object({
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;
+
+/**
+ * Type guard pour ContactInput
+ */
+export function isContactInput(obj: unknown): obj is ContactInput {
+  const parse = contactSchema.safeParse(obj);
+  return parse.success;
+}

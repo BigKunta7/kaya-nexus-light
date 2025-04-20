@@ -1,8 +1,25 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
 import { HubProvider } from '../../src/contexts/HubContext';
-import { HubSelector } from '../../src/components/ui/HubSelector';
+import HubSelector from '../../src/components/ui/HubSelector';
 
 describe('HubSelector', () => {
+  it('affiche le composant', () => {
+    render(
+      <HubProvider>
+        <HubSelector />
+      </HubProvider>
+    );
+    expect(screen.getByText('Sélectionner un hub')).toBeInTheDocument();
+  });
+  it('vérifie la présence d’un bouton', () => {
+    render(
+      <HubProvider>
+        <HubSelector />
+      </HubProvider>
+    );
+    expect(screen.getByRole('button')).toBeInTheDocument();
+  });
   it('affiche la liste des hubs et permet la sélection', () => {
     render(
       <HubProvider>
