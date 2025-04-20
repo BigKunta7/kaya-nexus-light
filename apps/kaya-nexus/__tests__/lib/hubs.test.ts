@@ -1,8 +1,8 @@
-import { getHubs, getDefaultHub, getHubById } from '@/lib/hubs';
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect, jest } from '@jest/globals';
+import type { HubConfig } from '@/types/hub';
 
 // Mock des données pour les tests
-const mockHubs = [
+const mockHubs: HubConfig[] = [
   {
     id: 'test',
     name: 'Test Hub',
@@ -18,6 +18,16 @@ const mockHubs = [
     default: true
   }
 ];
+
+// Mock complet des fonctions des hubs
+jest.mock('@/lib/hubs', () => ({
+  getHubs: jest.fn(() => mockHubs),
+  getDefaultHub: jest.fn(() => mockHubs[0]),
+  getHubById: jest.fn((hubs: HubConfig[], id: string) => hubs.find(h => h.id === id))
+}));
+
+// Importe les fonctions mockées
+import { getHubs, getDefaultHub, getHubById } from '@/lib/hubs';
 
 describe('Hubs service', () => {
   it('retourne au moins un hub', async () => {

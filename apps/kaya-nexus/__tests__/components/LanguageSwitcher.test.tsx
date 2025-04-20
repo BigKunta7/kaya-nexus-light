@@ -1,14 +1,29 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect, jest } from '@jest/globals';
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
+import React from 'react';
+
+// Mock du LanguageContext
+jest.mock('@/contexts/LanguageContext', () => ({
+  useLanguage: () => ({
+    language: 'fr-FR',
+    setLanguage: jest.fn(),
+    languages: [
+      { code: 'fr-FR', label: 'Français' },
+      { code: 'en-US', label: 'English' }
+    ]
+  }),
+  LanguageProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>
+}));
 
 describe('LanguageSwitcher', () => {
   it('affiche le composant', () => {
     render(<LanguageSwitcher />);
-    expect(screen.getByText('Sélectionner une langue')).toBeInTheDocument();
+    expect(screen.getByText(/Langue/i)).toBeInTheDocument();
   });
-  it('vérifie la présence d’un bouton', () => {
+
+  it('affiche les options de langue disponibles', () => {
     render(<LanguageSwitcher />);
-    expect(screen.getByRole('button')).toBeInTheDocument();
+    expect(screen.getByRole('combobox')).toBeInTheDocument();
   });
 });
