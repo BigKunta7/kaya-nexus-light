@@ -1,0 +1,18 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "isolatedModules": false,
+    "noEmit": true,
+    "types": ["cypress"],
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "./**/*.cy.ts",
+    "./**/*.cy.tsx"
+  ],
+  "exclude": [
+    "../node_modules",
+    "../**/*.test.ts",
+    "../**/*.test.tsx"
+  ]
+}
