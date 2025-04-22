@@ -13,7 +13,7 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "rootDir": "src",
-    "types": []
+    "types": ["jest", "@testing-library/jest-dom"]
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist", "**/*.test.tsx", "**/*.test.ts"]

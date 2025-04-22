@@ -5,6 +5,59 @@ import { requireRole } from '@/middleware/requireRole';
 
 // CRUD complet pour les projets
 
+/**
+ * @swagger
+ * /api/v1/projects:
+ *   get:
+ *     summary: Liste tous les projets
+ *     tags:
+ *       - Projects
+ *     responses:
+ *       200:
+ *         description: Liste des projets
+ *   post:
+ *     summary: Crée un projet
+ *     tags:
+ *       - Projects
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Project'
+ *     responses:
+ *       201:
+ *         description: Projet créé
+ *   put:
+ *     summary: Met à jour un projet
+ *     tags:
+ *       - Projects
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Project'
+ *     responses:
+ *       200:
+ *         description: Projet mis à jour
+ *   delete:
+ *     summary: Supprime un projet
+ *     tags:
+ *       - Projects
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Projet supprimé
+ */
 export const GET = requireRole(['user', 'admin'], async () => {
   const supabase = createClient();
   const { data, error } = await supabase.from('projects').select('*');

@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kaya Nexus
 
-## Getting Started
+Plateforme collaborative multi-hubs (Next.js 15, TypeScript, Firestore, Stripe)
 
-First, run the development server:
+## 🚀 Démarrage
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Accès : http://localhost:3000
+- Changer de langue et de hub via le header.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🌍 Fonctionnalités principales
+- Authentification MFA (Firebase)
+- Multi-hubs (branding, modules)
+- Internationalisation (fr, en)
+- Modules : CRM, Projets, Finance, IA, Analytics
+- Paiements Stripe
+- API REST versionnées (`/api/v1/...`)
+- Documentation Swagger (`swagger.config.js`)
+- Tests unitaires (Jest, React Testing Library)
+- Tests E2E (Cypress)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔒 Sécurité
+- MFA obligatoire
+- Validation stricte des schémas (Zod)
+- Stockage sécurisé des secrets (env)
 
-## Learn More
+## 📝 Documentation
+- [ARCHITECTURE.md](./ARCHITECTURE.md)
+- [ERREURS.md](./ERREURS.md)
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Déploiement
+- Configuration CI/CD via GitHub Actions
+- Déploiement automatisé sur Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📚 Références
+- [Next.js Docs](https://nextjs.org/docs)
+- [Swagger-jsdoc](https://www.npmjs.com/package/swagger-jsdoc)
+- [Cypress](https://docs.cypress.io/)
+- [Vercel Deployment](https://vercel.com/docs)

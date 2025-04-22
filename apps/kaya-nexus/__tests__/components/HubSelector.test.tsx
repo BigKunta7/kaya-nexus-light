@@ -49,8 +49,8 @@ jest.mock('../../src/contexts/HubContext', () => ({
 describe('HubSelector', () => {
   it('affiche le composant', () => {
     render(<HubSelector />);
-    const labelElement = screen.getByText(/Hub/i);
-    expect(labelElement).toBeTruthy();
+    const select = screen.getByLabelText(/Hub/i);
+    expect(select).toBeTruthy();
   });
 
   it('affiche un sélecteur de hub', () => {

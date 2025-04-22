@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // i18n supprimé car non supporté avec App Router
-  /* config options here */
+  experimental: { appDir: true },
+  i18n: {
+    locales: ['fr-FR', 'en-US', 'gwp' /* , …autres langues */],
+    defaultLocale: 'fr-FR',
+    localeDetection: true
+  }
 };
 
 module.exports = nextConfig;

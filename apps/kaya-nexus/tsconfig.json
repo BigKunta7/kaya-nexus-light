@@ -1,16 +1,25 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@kaya/design-system": ["../../packages/design-system/src"]
+      "@/*": [
+        "src/*"
+      ],
+      "@kaya/design-system": [
+        "../../packages/design-system/src"
+      ]
     },
-    "types": ["jest", "@testing-library/jest-dom"]
+    "types": [
+      "jest",
+      "@testing-library/jest-dom"
+    ],
+    "jsx": "preserve"
   },
   "include": [
     "next-env.d.ts",
@@ -20,5 +29,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

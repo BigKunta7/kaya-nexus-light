@@ -1,8 +1,11 @@
+"use client";
+
 /**
  * Contexte React pour la gestion de la langue sélectionnée (persistance locale).
  * @module Contexts/LanguageContext
  */
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { getCurrentLocale, switchLocale, Locale } from '@/i18n';
 
 interface LanguageContextProps {
   language: string;
@@ -11,24 +14,40 @@ interface LanguageContextProps {
 }
 
 const LANGUAGES = [
-  { code: 'fr-FR', label: 'Français' },
-  { code: 'en-US', label: 'English' },
+  { code: 'fr', label: 'Français' },
+  { code: 'en', label: 'English' },
   { code: 'gwp', label: 'Gwadloupéen' }
 ];
 
 const LanguageContext = createContext<LanguageContextProps | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguageState] = useState('fr-FR');
+  // Initialiser avec la langue actuelle
+  const [language, setLanguageState] = useState<string>('fr');
 
   useEffect(() => {
-    const stored = localStorage.getItem('selectedLanguage');
-    if (stored) setLanguageState(stored);
+    // Côté client uniquement
+    if (typeof window !== 'undefined') {
+      // Essayer d'abord localStorage
+      const stored = localStorage.getItem('selectedLanguage');
+      if (stored && LANGUAGES.some(lang => lang.code === stored)) {
+        setLanguageState(stored);
+      } else {
+        // Sinon utiliser la langue des cookies
+        const cookieLocale = getCurrentLocale();
+        setLanguageState(cookieLocale);
+      }
+    }
   }, []);
 
   const setLanguage = (lang: string) => {
     setLanguageState(lang);
     localStorage.setItem('selectedLanguage', lang);
+    
+    // Synchroniser avec les cookies si c'est une langue supportée
+    if (lang === 'fr' || lang === 'en') {
+      switchLocale(lang as Locale);
+    }
   };
 
   return (
@@ -38,8 +57,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   );
 };
 
-export function useLanguage() {
-  const ctx = useContext(LanguageContext);
-  if (!ctx) throw new Error('useLanguage doit être utilisé dans un LanguageProvider');
-  return ctx;
-}
+export const useLanguage = (): LanguageContextProps => {
+  const context = useContext(LanguageContext);
+  if (!context) {
+    throw new Error('useLanguage doit être utilisé à l\'intérieur d\'un LanguageProvider');
+  }
+  return context;
+};

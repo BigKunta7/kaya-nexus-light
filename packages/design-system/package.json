@@ -17,6 +17,7 @@
     "tailwind-merge": "^2.2.0"
   },
   "devDependencies": {
+    "ts-jest": "^29.3.2",
     "@storybook/addon-essentials": "^8.6.12",
     "@storybook/addon-interactions": "^8.6.12",
     "@storybook/addon-links": "^8.6.12",

@@ -2,6 +2,7 @@
  * Contexte React pour la gestion du hub sélectionné (persistance locale).
  * @module Contexts/HubContext
  */
+"use client";
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getDefaultHub, getHubs } from '../lib/hubs';
 import type { HubConfig } from '../types/hub';
