@@ -1,0 +1,5 @@
+.avatar-img {
+  width: var(--avatar-size, 40px);
+  height: var(--avatar-size, 40px);
+  display: inline-block;
+}

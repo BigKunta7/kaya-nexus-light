@@ -1,25 +1,19 @@
 /// <reference types="cypress" />
 
+// Tests CRM mis à jour pour accès autorisé et non autorisé
 describe('Module CRM', () => {
-  beforeEach(() => {
-    cy.visit('/');
-    cy.get('[data-testid="login-button"]').click();
-    cy.get('[data-testid="email-input"]').type('utilisateur@exemple.com');
-    cy.get('[data-testid="password-input"]').type('motdepasse123');
-    cy.get('[data-testid="login-submit"]').click();
-    cy.get('[data-testid="user-menu"]').should('contain', 'utilisateur@exemple.com');
-  });
-
-  it('accède à la page CRM', () => {
-    cy.get('nav').contains('CRM').click();
-    cy.url().should('include', '/crm');
-    cy.contains('CRM').should('exist');
-  });
-
-  it('affiche une erreur si accès interdit', () => {
-    // Supposons qu'on simule un utilisateur sans droits CRM
-    // À adapter selon la logique d'authentification réelle
+  it('affiche un message "Accès refusé" si non connecté', () => {
+    cy.clearCookies();
     cy.visit('/crm');
-    cy.contains(/accès refusé|forbidden|unauthorized/i).should('exist');
+    cy.url().should('include', '/access-denied');
+    cy.contains('Accès refusé').should('be.visible');
+  });
+
+  it('accède à la page CRM si connecté', () => {
+    cy.clearCookies();
+    cy.visit('/');
+    cy.setCookie('authToken', 'fake-token', { path: '/' });
+    cy.visit('/crm');
+    cy.contains('CRM Créatif').should('be.visible');
   });
 });

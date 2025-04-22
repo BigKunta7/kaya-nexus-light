@@ -1,0 +1,35 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Install dependencies
+        run: pnpm install
+      - name: Lint
+        run: pnpm lint
+      - name: Run unit tests
+        run: pnpm test
+      - name: Run E2E tests
+        run: pnpm cypress:run
+      - name: Generate coverage report
+        run: pnpm test -- --coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
+      - name: Build
+        run: pnpm build
+      - name: Deploy (Netlify)
+        if: github.ref == 'refs/heads/main'
+        run: pnpm netlify deploy --prod --dir=.next

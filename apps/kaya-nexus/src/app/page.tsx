@@ -22,6 +22,8 @@ export default function Home() {
     if (email === 'utilisateur@exemple.com' && password === 'motdepasse123') {
       setUser({ email });
       setShowLogin(false);
+      // Stockage du token d'authentification en cookie
+      document.cookie = 'authToken=fake-token; path=/';
     } else {
       setError('Identifiants invalides');
     }

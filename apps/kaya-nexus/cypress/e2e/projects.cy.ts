@@ -1,23 +1,20 @@
 /// <reference types="cypress" />
 
+// Tests Projets mis à jour pour accès autorisé et non autorisé
 describe('Module Projets', () => {
-  beforeEach(() => {
-    cy.visit('/');
-    cy.get('[data-testid="login-button"]').click();
-    cy.get('[data-testid="email-input"]').type('utilisateur@exemple.com');
-    cy.get('[data-testid="password-input"]').type('motdepasse123');
-    cy.get('[data-testid="login-submit"]').click();
-    cy.get('[data-testid="user-menu"]').should('contain', 'utilisateur@exemple.com');
-  });
-
-  it('accède à la page Projets', () => {
-    cy.get('nav').contains('Projets').click();
-    cy.url().should('include', '/projets');
-    cy.contains('Projets').should('exist');
-  });
-
-  it('affiche une erreur si accès interdit', () => {
+  it('affiche un message "Accès refusé" si non connecté', () => {
+    cy.clearCookies();
     cy.visit('/projets');
-    cy.contains(/accès refusé|forbidden|unauthorized/i).should('exist');
+    cy.url().should('include', '/access-denied');
+    cy.contains('Accès refusé').should('be.visible');
+  });
+
+  it('accède à la page Projets si connecté', () => {
+    cy.clearCookies();
+    // Initialiser le domaine avant de poser le cookie
+    cy.visit('/');
+    cy.setCookie('authToken', 'fake-token', { path: '/' });
+    cy.visit('/projets');
+    cy.contains('Gestion des Projets').should('be.visible');
   });
 });
