@@ -37,6 +37,7 @@ const HubSelector: React.FC = () => {
   return (
     <select
       data-testid="hub-selector"
+      data-cy="hub-selector"
       aria-label="Sélection du hub"
       value={currentHub?.id}
       onChange={e => {

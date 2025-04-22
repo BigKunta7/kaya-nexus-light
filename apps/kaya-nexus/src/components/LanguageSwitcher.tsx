@@ -36,6 +36,7 @@ const LanguageSwitcher: React.FC = () => {
   return (
     <select
       data-testid="language-switcher"
+      data-cy="language-switcher"
       aria-label="Sélection de la langue"
       value={language}
       onChange={e => setLanguage(e.target.value)}
