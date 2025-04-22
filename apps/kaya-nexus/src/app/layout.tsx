@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/contexts";
-import { HubSelector, LanguageSwitcher } from "@/components";
+import { HubSelector, LanguageSwitcher, Nav } from "@/components";
 import { cookies } from 'next/headers';
 
 const geistSans = Geist({
@@ -29,6 +29,7 @@ export default async function RootLayout({
         <Providers>
           <nav className="flex justify-between items-center p-4 bg-gray-800 text-white">
             <div className="text-xl font-bold">Kaya Nexus</div>
+            <Nav />
             <div className="flex items-center gap-4">
               <HubSelector />
               <LanguageSwitcher />

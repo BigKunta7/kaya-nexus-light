@@ -2,11 +2,23 @@
 import { useRouter } from "next/navigation";
 export const Nav = () => {
   const { push } = useRouter();
+  const modules = [
+    { slug: '', label: 'Accueil' },
+    { slug: 'crm', label: 'CRM' },
+    { slug: 'projets', label: 'Projets' },
+    { slug: 'finance', label: 'Finance' },
+    { slug: 'analytics', label: 'Analytique' },
+    { slug: 'ai', label: 'IA' },
+  ];
   return (
     <nav className="nav">
-      {["crm", "projects", "finance"].map((m) => (
-        <button key={m} className="button" onClick={() => push(`/${m}`)}>
-          {m.charAt(0).toUpperCase() + m.slice(1)}
+      {modules.map(({ slug, label }) => (
+        <button
+          key={slug || 'home'}
+          className="button"
+          onClick={() => push(slug ? `/${slug}` : '/')}
+        >
+          {label}
         </button>
       ))}
     </nav>
