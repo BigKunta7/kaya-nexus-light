@@ -15,6 +15,13 @@
     "rootDir": "src",
     "types": ["jest", "@testing-library/jest-dom"]
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist", "**/*.test.tsx", "**/*.test.ts"]
+  "include": [
+    "src",
+    "src/components/__tests__/Card.test.tsx",
+    "src/components/__tests__/Modal.test.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

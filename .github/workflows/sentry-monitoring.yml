@@ -8,6 +8,16 @@ on:
       - main
       - develop
 
+jobs:
+  sentry-monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Sentry CLI
+        run: npx sentry-cli send-event --message "Sentry monitoring job triggered"
+
 # Sentry monitoring workflow désactivé temporairement pour CI/CD stable
 # Tout le bloc jobs est commenté pour éviter toute erreur YAML ou CI/CD.
 # jobs:

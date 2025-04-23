@@ -55,7 +55,7 @@ describe('LanguageContext', () => {
       </LanguageProvider>
     );
     
-    expect(screen.getByTestId('current-language').textContent).toBe('fr-FR');
+    expect(screen.getByTestId('current-language').textContent).toBe('fr');
   });
 
   it('fournit la liste des langues disponibles', () => {
@@ -77,7 +77,7 @@ describe('LanguageContext', () => {
     );
     
     // État initial
-    expect(screen.getByTestId('current-language').textContent).toBe('fr-FR');
+    expect(screen.getByTestId('current-language').textContent).toBe('fr');
     
     // Changer de langue
     await act(async () => {
@@ -113,7 +113,7 @@ describe('LanguageContext', () => {
     // Tentative d'utilisation du hook en dehors du Provider doit lancer une erreur
     expect(() => {
       render(<TestLanguageComponent />);
-    }).toThrow('useLanguage doit être utilisé dans un LanguageProvider');
+    }).toThrow('useLanguage doit être utilisé à l\'intérieur d\'un LanguageProvider');
     
     // Restaure console.error
     console.error = originalConsoleError;

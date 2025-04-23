@@ -6,10 +6,10 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Home from './page'; // Assurez-vous que le chemin est correct
 
-jest.mock('next/navigation', () => ({
-  useRouter: () => ({ push: jest.fn() }),
-  usePathname: () => '/',
-}));
+// jest.mock('next/navigation', () => ({
+//   useRouter: () => ({ push: jest.fn() }),
+//   usePathname: () => '/',
+// }));
 
 describe('Page d\'accueil', () => {
   it('devrait afficher le titre Kaya Nexus', () => {

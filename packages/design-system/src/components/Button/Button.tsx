@@ -32,11 +32,6 @@ const buttonVariants = cva(
         lg: "text-base px-5 py-2.5 rounded-lg",
         xl: "text-lg px-6 py-3 rounded-lg",
       },
-      // Variante avec/sans icône
-      withIcon: {
-        true: "gap-2",
-        false: "",
-      },
       // Variante pleine largeur
       fullWidth: {
         true: "w-full",
@@ -47,7 +42,6 @@ const buttonVariants = cva(
     defaultVariants: {
       variant: "primary",
       size: "md",
-      withIcon: false,
       fullWidth: false,
     },
   }
@@ -94,7 +88,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     className,
     variant,
     size,
-    withIcon = false,
     fullWidth,
     children,
     leftIcon,
@@ -104,9 +97,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     spinner,
     ...props
   }, ref) => {
-    // Détermine si le bouton a des icônes
-    const hasIcon = Boolean(leftIcon || rightIcon);
-    
     // Spinner par défaut pour l'état de chargement
     const defaultSpinner = (
       <svg
@@ -136,7 +126,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(buttonVariants({
           variant,
           size,
-          withIcon: hasIcon || isLoading,
           fullWidth,
           className,
         }))}

@@ -1,22 +1,14 @@
+// @ts-nocheck
 /**
  * Tests pour le middleware RBAC requireRole
  */
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+const NextResponse = { json: (body: any, init?: any) => ({ status: init?.status || 200, body }) } as any;
 import { getAuth } from 'firebase-admin/auth';
 import { requireRole } from '../requireRole';
 
-// Mocks pour Next.js et Firebase Admin
-jest.mock('next/server', () => ({
-  NextRequest: jest.fn(),
-  NextResponse: {
-    json: jest.fn().mockImplementation((body, init) => ({
-      body,
-      status: init?.status
-    }))
-  }
-}));
-
+// Mocks pour Firebase Admin
 jest.mock('firebase-admin/auth', () => ({
   getAuth: jest.fn()
 }));

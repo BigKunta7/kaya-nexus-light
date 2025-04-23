@@ -1,0 +1,238 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  isActive  Boolean  @default(true)
+  // ... autres champs (nom, rôle, etc.)
+  roles     Role[]
+}
+
+model Project {
+  id      String @id @default(uuid())
+  status  String
+  // ... autres champs
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  content   String
+  authorId  String
+  createdAt DateTime @default(now())
+  // ...
+}
+
+model CollaborationMessage {
+  id        String   @id @default(uuid())
+  type      String
+  content   String
+  authorId  String
+  targetId  String?
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  title     String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  permissions String[]
+  users       User[]
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  action    String
+  userId    String
+  meta      String?
+  createdAt DateTime @default(now())
+}
+
+model Consent {
+  id          String   @id @default(uuid())
+  userId      String
+  consentType String
+  given       Boolean
+  updatedAt   DateTime @default(now())
+  @@unique([userId, consentType])
+}
+
+model SecurityEvent {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String
+  createdAt DateTime @default(now())
+}
+
+model Chat {
+  id           String   @id @default(uuid())
+  participants User[]
+  messages     Message[]
+}
+
+model Comment {
+  id        String    @id @default(uuid())
+  targetId  String
+  authorId  String
+  content   String
+  parentId  String?
+  replies   Comment[] @relation("CommentReplies")
+  createdAt DateTime  @default(now())
+}
+
+model File {
+  id         String   @id @default(uuid())
+  name       String
+  size       Int
+  type       String
+  uploaderId String
+  createdAt  DateTime @default(now())
+}
+
+model FileShare {
+  id           String   @id @default(uuid())
+  fileId       String
+  targetUserId String
+}
+
+model Poll {
+  id        String   @id @default(uuid())
+  question  String
+  creatorId String
+  options   PollOption[]
+}
+
+model PollOption {
+  id      String   @id @default(uuid())
+  text    String
+  pollId  String
+  votes   Vote[]
+}
+
+model Vote {
+  id           String   @id @default(uuid())
+  pollOptionId String
+  userId       String
+}
+
+model Dashboard {
+  id     String @id @default(uuid())
+  userId String @unique
+  config Json
+}
+
+model Alert {
+  id             String   @id @default(uuid())
+  userId         String
+  type           String
+  threshold      Float
+  target         String
+  lastTriggeredAt DateTime?
+  lastValue      Float?
+}
+
+model ApiKey {
+  id      String   @id @default(uuid())
+  userId  String
+  name    String
+  key     String   @unique
+  revoked Boolean  @default(false)
+}
+
+model Webhook {
+  id     String   @id @default(uuid())
+  userId String
+  url    String
+  event  String
+}
+
+model Extension {
+  id        String   @id @default(uuid())
+  name      String
+  published Boolean  @default(false)
+}
+
+model UserExtension {
+  id          String   @id @default(uuid())
+  userId      String
+  extensionId String
+}
+
+model Ticket {
+  id          String   @id @default(uuid())
+  userId      String
+  subject     String
+  description String
+  priority    String
+  status      String
+  agentId     String?
+  createdAt   DateTime @default(now())
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String
+  message   String
+  rating    Int?
+  createdAt DateTime @default(now())
+}
+
+model HelpArticle {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  published Boolean  @default(false)
+  updatedAt DateTime @default(now())
+}
+
+model Organization {
+  id      String   @id @default(uuid())
+  name    String
+  ownerId String
+  members OrganizationMember[]
+}
+
+model OrganizationMember {
+  id     String   @id @default(uuid())
+  orgId  String
+  userId String
+  role   String
+}
+
+model Subscription {
+  id        String   @id @default(uuid())
+  userId    String
+  plan      String
+  stripeId  String?
+  status    String
+}
+
+model Quota {
+  id     String   @id @default(uuid())
+  orgId  String
+  type   String
+  value  Int
+  @@unique([orgId, type])
+}
+
+model Sandbox {
+  id      String   @id @default(uuid())
+  userId  String
+  config  Json
+  status  String
+}
+
+// Ajout pour blockchain, IA, archivage, moteur de règles, templates, badges, etc. à compléter selon besoins
