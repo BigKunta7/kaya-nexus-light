@@ -22,4 +22,7 @@ if (!getApps().length) {
 
 const auth: Auth = getAuth(app);
 
+// Mock minimal pour Jest
+export const jestAuth = { currentUser: null };
+
 export { app, auth };

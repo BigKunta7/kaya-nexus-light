@@ -1,3 +1,12 @@
+// Setup jest-dom pour les assertions avancées
+env.setupFilesAfterEnv = ['<rootDir>/jest.setup.js'];
+
+// Mock Next.js navigation si besoin
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ push: jest.fn() }),
+  usePathname: () => '/',
+}));
+
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Button from "../Button";

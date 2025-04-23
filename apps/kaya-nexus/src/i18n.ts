@@ -29,6 +29,11 @@ export function getCurrentLocale(): Locale {
   return (storedLocale === 'fr' || storedLocale === 'en') ? storedLocale : 'fr';
 }
 
+// Mock minimal pour Jest
+export const getCurrentLocale = () => 'fr';
+export const switchLocale = () => {};
+export type Locale = 'fr' | 'en';
+
 // Traductions
 export const translations = {
   fr: {

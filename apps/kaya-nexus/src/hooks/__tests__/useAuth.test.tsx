@@ -6,6 +6,12 @@ import { render, screen, act } from '@testing-library/react';
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
 import { AuthProvider, useAuth } from '../useAuth';
 
+// Mock Next.js navigation pour éviter les erreurs de router
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ push: jest.fn() }),
+  usePathname: () => '/',
+}));
+
 // Mock du module firebase/auth
 let authCallbackRef: any = null;
 const mockUnsubscribe = jest.fn();

@@ -1,3 +1,9 @@
+// Mock Next.js navigation pour éviter les erreurs de router
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ push: jest.fn() }),
+  usePathname: () => '/',
+}));
+
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { LanguageSwitcher } from '../LanguageSwitcher';

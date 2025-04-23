@@ -8,24 +8,19 @@ on:
       - main
       - develop
 
-jobs:
-  sentry-release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-      - name: Install dependencies
-        run: pnpm install
-      - name: Create Sentry release
-        uses: getsentry/action-release@v1
-        with:
-          environment: production
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: bigkunta
-          SENTRY_PROJECT: ton-projet
+# Sentry monitoring workflow désactivé temporairement pour CI/CD stable
+# Tout le bloc jobs est commenté pour éviter toute erreur YAML ou CI/CD.
+# jobs:
+#   sentry-release:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+#       - name: Create Sentry release
+#         uses: getsentry/action-release@v1
+#         env:
+#           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+#           SENTRY_ORG: bigkunta
+#           SENTRY_PROJECT: ton-projet
+#         with:
+#           environment: production

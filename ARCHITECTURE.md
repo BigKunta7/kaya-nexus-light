@@ -473,3 +473,75 @@ describe('isProjectInput', () => {
 - Les fichiers de test sont à placer dans `__tests__` ou à côté du module (`*.test.ts`).
 
 ---
+
+```
+# ARCHITECTURE Kaya Nexus
+
+> Plateforme SaaS créative, collaborative, multi-filiales, AGI-ready
+
+## 🎯 Objectif crucial
+Créer une plateforme universelle, intelligente, ultra-modulaire et sécurisée, adaptée à l’innovation et à la collaboration multi-entreprises.
+
+---
+
+## 🏗️ Vision & principes
+- **Smart** : composants réutilisables, IA/ML, automatisations, UX proactive
+- **Efficace** : micro-frontends, CI/CD, monitoring, tests >80%, zero-downtime
+- **Sûr** : chiffrement, audit, conformité, gestion fine des permissions
+- **Scalable** : multi-tenant, multi-filiales, API publique, extensibilité native
+
+---
+
+## 📐 Structure technique (monorepo)
+
+```
+/components/ui         # Design System universel (atomic design)
+/modules/[nom]         # Modules métiers (collab, analytics, etc.)
+/contexts              # Contexts React globaux
+/hooks                 # Hooks custom smart
+/pages                 # Pages Next.js (App Router)
+/api                   # Routes API Next.js
+/lib                   # Libs utilitaires, intégrations externes
+/types                 # Types globaux TypeScript
+/tests                 # Tests unitaires et E2E
+```
+
+---
+
+## ⚡ Stack technique
+- **Front** : Next.js (App Router), React, TypeScript, Zustand, i18n, Testing Library
+- **Design System** : @kaya/design-system (accessibilité, thématisation, responsive, animations)
+- **Back/Serverless** : Next.js API routes, Firebase, Node.js, MongoDB (via Mongoose)
+- **CI/CD** : GitHub Actions, Netlify, pnpm, tests automatisés, Sentry (optionnel)
+- **Tests** : Jest, Cypress, Istanbul (>80% couverture)
+- **Sécurité** : JWT, OAuth, bcrypt, AES-256, Zod
+- **Monitoring** : Sentry, logs centralisés, alertes
+
+---
+
+## 🧩 Diagramme C4 (simplifié)
+
+- **Users** → [Web App Next.js] → [API Next.js/Firebase] → [MongoDB, services externes]
+- **Admin** → [Backoffice] (module admin dédié)
+
+---
+
+## 🌍 Bonnes pratiques
+- Hooks fonctionnels, pas de classes (React)
+- Routes versionnées `/api/v1/...` (Express/Next)
+- Schémas Mongoose stricts, indexation des champs critiques
+- Validation systématique avec Zod
+- Commentaires et doc en français (JSDoc)
+- Tests automatisés, monitoring qualité, feedback utilisateur
+
+---
+
+## 🔗 Références
+- [Next.js Docs](https://nextjs.org/docs)
+- [React Docs](https://react.dev/learn)
+- [Node.js Best Practices](https://github.com/goldbergyoni/nodebestpractices)
+- [Testing Library](https://testing-library.com/docs/)
+
+---
+
+> "Kaya Nexus vise l’excellence technique, la sécurité, l’intelligence et l’expérience utilisateur ultime."

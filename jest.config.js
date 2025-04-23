@@ -12,9 +12,12 @@ module.exports = {
     '^.+\\.(js|jsx)$': 'babel-jest',
   },
   moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/apps/kaya-nexus/src/$1',
+    '^@kaya/design-system$': '<rootDir>/packages/design-system/src',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.js',
   },
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   collectCoverage: true,
   collectCoverageFrom: [
     'apps/kaya-nexus/src/**/*.{ts,tsx}',

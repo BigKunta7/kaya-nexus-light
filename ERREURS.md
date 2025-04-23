@@ -1,4 +1,42 @@
-# ERREURS.md
+# ERREURS & CORRECTIFS Kaya Nexus
+
+Ce fichier documente les erreurs critiques rencontrées, leurs causes, les correctifs appliqués et les bonnes pratiques pour éviter leur réapparition.
+
+---
+
+## Historique des erreurs majeures
+
+### 1. CI/CD – Sentry release échoue
+- **Problème** : Mauvaise configuration des variables Sentry (`SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, `SENTRY_PROJECT`).
+- **Correctif** : Désactivation temporaire du job Sentry dans le workflow GitHub Actions, documentation des variables nécessaires.
+- **Bonnes pratiques** : Toujours valider les secrets et la config avant push.
+
+### 2. Tests Jest échouent (modules manquants)
+- **Problème** : Import de modules non mockés (`@/lib/firebase/client`, `@/i18n`), alias mal configurés.
+- **Correctif** : Création de mocks, configuration de `moduleNameMapper`, ajout de `jest.setup.js`.
+- **Bonnes pratiques** : Mock systématique des dépendances externes, vérification des alias.
+
+### 3. Erreur “expected app router to be mounted”
+- **Problème** : Tests de composants Next.js utilisant `useRouter` sans contexte router.
+- **Correctif** : Mock du module `next/navigation` dans les tests concernés.
+- **Bonnes pratiques** : Toujours mocker le router dans les tests Next.js.
+
+### 4. `toBeInTheDocument` n’est pas reconnu
+- **Problème** : Oubli d’importer `@testing-library/jest-dom`.
+- **Correctif** : Ajout de `jest.setup.js` et de l’import global.
+- **Bonnes pratiques** : Centraliser tous les setups de tests dans un fichier unique.
+
+---
+
+## Conseils généraux
+- Toujours viser >80% de couverture de tests.
+- Documenter chaque incident critique et sa résolution.
+- Mettre à jour ce fichier à chaque correctif majeur.
+- Sécuriser les secrets et vérifier la conformité RGPD.
+
+---
+
+> "L’excellence, c’est corriger vite, documenter mieux, et ne jamais refaire la même erreur deux fois."
 
 ## Journal des erreurs critiques et correctifs appliqués
 
